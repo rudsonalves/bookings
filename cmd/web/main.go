@@ -7,9 +7,9 @@ import (
 	"time"
 
 	"github.com/alexedwards/scs/v2"
-	"github.com/rudsonalves/webapp/pkg/config"
-	"github.com/rudsonalves/webapp/pkg/handlers"
-	"github.com/rudsonalves/webapp/pkg/render"
+	"github.com/rudsonalves/bookings/pkg/config"
+	"github.com/rudsonalves/bookings/pkg/handlers"
+	"github.com/rudsonalves/bookings/pkg/render"
 )
 
 const portNumber = ":6060"

@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"path/filepath"
 
-	"github.com/rudsonalves/webapp/pkg/config"
-	"github.com/rudsonalves/webapp/pkg/models"
+	"github.com/rudsonalves/bookings/pkg/config"
+	"github.com/rudsonalves/bookings/pkg/models"
 )
 
 const (

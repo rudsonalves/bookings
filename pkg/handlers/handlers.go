@@ -3,9 +3,9 @@ package handlers
 import (
 	"net/http"
 
-	"github.com/rudsonalves/webapp/pkg/config"
-	"github.com/rudsonalves/webapp/pkg/models"
-	"github.com/rudsonalves/webapp/pkg/render"
+	"github.com/rudsonalves/bookings/pkg/config"
+	"github.com/rudsonalves/bookings/pkg/models"
+	"github.com/rudsonalves/bookings/pkg/render"
 )
 
 // Repository is the repository type

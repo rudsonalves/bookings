@@ -10,3 +10,4 @@ This project use:
  - Use the [chi router](github.com/go-chi/chi) version 1.5.4;
  - Use [nosurf](github.com/justinas/nosurf) version 1.1.1.
  - Add [Vanilla JS Datepicker](github.com/mymth/vanillajs-datepicker)
+ - Add [notie](https://github.com/jaredreich/notie)

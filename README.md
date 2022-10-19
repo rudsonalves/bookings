@@ -11,3 +11,4 @@ This project use:
  - Use [nosurf](github.com/justinas/nosurf) version 1.1.1.
  - Add [Vanilla JS Datepicker](github.com/mymth/vanillajs-datepicker)
  - Add [notie](https://github.com/jaredreich/notie)
+ - Add [sweetalert2](https://sweetalert2.github.io/)

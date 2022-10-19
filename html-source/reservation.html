@@ -13,24 +13,14 @@
 		<link rel="stylesheet" type="text/css" href="https://unpkg.com/notie/dist/notie.min.css">
 		
 		<!-- My Styles -->
-		<style>
-			.my-footer {
-				height: 5em;
-				background-color: #163b65;
-				margin-top: 2em;
-				padding: 1em;
-				color: #FFFFFF;
-				font-size: 80%;
-			}
-			
-			.room-image {
-				max-width: 50%;
-			}
+		<link rel="stylesheet" type="text/css" href="static/css/styles.css">
 
-			.notie-container {
-     	 		box-shadow: none;
+		<style>
+			.btn-secondary {
+				color: aqua;
 			}
 		</style>
+
 		<title>My nice Page</title>
 	</head>
 	
@@ -99,7 +89,7 @@
 			</div>
 			<div class="row">
 				<div class="col-md-4">
-					<button id="colorButton" class="btn btn-primary" id="button_sub">
+					<button id="colorButton" class="btn btn-secondary" id="button_sub">
 						Click me
 					</button>
 				</div>
@@ -173,9 +163,24 @@
 			//                               Test Button
 			// -------------------------------------------------------------------------
 			document.getElementById("colorButton").addEventListener("click", function() {
-				attenption.error({title: "Hello, World!"})
+				let html = `
+					<form id="check-aviability-form" action="" method="post" novalidate class="needs-validation">
+						<div class="form-row" id="reservation-dates-modal">
+							<div class="col-md-6">
+								<input disabled required class="form-control" type="text" name="start" id="start" placeholder="Arrival">
+							</div>
+							<div class="col-md-6">
+								<input disabled required class="form-control" type="text" name="end" id="end" placeholder="Departure">
+							</div>
+						</div>
+					</form>
+				`
+				attenption.custom({msg: html, title: "Choose your dates"})
 			})
 
+			// -------------------------------------------------------------------------
+			//                          notifyModel function
+			// -------------------------------------------------------------------------
 			function notifyModel(title,text,icon, confirmButtonText) {
 				Swal.fire({
 					title: title,
@@ -185,6 +190,9 @@
 				})
 			}
 
+			// -------------------------------------------------------------------------
+			//                            Prompt function
+			// -------------------------------------------------------------------------
 			function Prompt() {
 				let toast = function(c) {
 					// console.log("Click button and got toast.")
@@ -240,10 +248,47 @@
 					})
 				}
 
+				async function custom(c) {
+					const {
+						msg = "",
+						title = "",
+					} = c;
+
+					const { value: formValues } = await Swal.fire({
+						title: title,
+						html: msg,
+						backdrop: false,
+						focusConfirm: false,
+						showCancelButton: true,
+						willOpen: () => {
+							const elem = document.getElementById("reservation-dates-modal");
+							const rp = new DateRangePicker(elem, {
+								format: "yyyy-mm-dd",
+								showOnFocus: false,
+							})
+						},
+						preConfirm: () => {
+							return [
+								document.getElementById('start').value,
+								document.getElementById('end').value
+							]
+						},
+						didOpen: () => {
+							document.getElementById("start").removeAttribute("disabled")
+							document.getElementById("end").removeAttribute("disabled")
+						}
+					})
+
+					if (formValues) {
+						Swal.fire(JSON.stringify(formValues))
+					}
+				}
+
 				return {
 					toast: toast,
 					success: success,
-					error: error
+					error: error,
+					custom: custom,
 				}
 			}
 

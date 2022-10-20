@@ -12,7 +12,7 @@ import (
 	"github.com/rudsonalves/bookings/pkg/render"
 )
 
-const portNumber = ":6060"
+const portNumber = ":8080"
 
 var (
 	app     config.AppConfig
@@ -26,7 +26,7 @@ func main() {
 	session.Lifetime = 24 * time.Hour
 	session.Cookie.Persist = true
 	session.Cookie.SameSite = http.SameSiteLaxMode
-	session.Cookie.Secure = false
+	session.Cookie.Secure = app.InProduction
 
 	app.Session = session
 
@@ -36,7 +36,6 @@ func main() {
 	}
 	app.TemplateCache = tc
 	app.UseCache = true
-	//app.InProduction = false
 
 	repo := handlers.NewRepo(&app)
 	handlers.NewHandlers(repo)

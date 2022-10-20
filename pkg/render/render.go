@@ -12,11 +12,12 @@ import (
 
 const (
 	TEMPL     = "./templates/"
-	TEMPLBASE = "./templates/base.layout.html"
+	TEMPLBASE = "./templates/base.layout.tmpl"
 )
 
 var (
-	app *config.AppConfig
+	app       *config.AppConfig
+	functions = template.FuncMap{}
 )
 
 // NewTemplates sets the config for the template package
@@ -55,11 +56,12 @@ func RenderTemplate(write http.ResponseWriter, tmpl string, td *models.TemplateD
 	}
 }
 
+// CreateTemplateCache creates a template cache as a map
 func CreateTemplateCache() (map[string]*template.Template, error) {
 	myCache := map[string]*template.Template{}
 
 	// get all of the files name *.page.tmpl from ./templates
-	pages, err := filepath.Glob(TEMPL + "*.page.html")
+	pages, err := filepath.Glob(TEMPL + "*.page.tmpl")
 	if err != nil {
 		return myCache, err
 	}
@@ -67,20 +69,20 @@ func CreateTemplateCache() (map[string]*template.Template, error) {
 	// range for all files in pages
 	for _, page := range pages {
 		name := filepath.Base(page)
-		ts, err := template.New(name).ParseFiles(page)
+		ts, err := template.New(name).Funcs(functions).ParseFiles(page)
 		if err != nil {
 			return myCache, err
 		}
 
 		log.Printf("create %s template", name)
 
-		matches, err := filepath.Glob(TEMPL + "*.layout.html")
+		matches, err := filepath.Glob(TEMPL + "*.layout.tmpl")
 		if err != nil {
 			return myCache, err
 		}
 
 		if len(matches) > 0 {
-			ts, err = ts.ParseGlob(TEMPL + "*.layout.html")
+			ts, err = ts.ParseGlob(TEMPL + "*.layout.tmpl")
 			if err != nil {
 				return myCache, err
 			}

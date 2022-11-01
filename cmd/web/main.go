@@ -12,16 +12,17 @@ import (
 	"github.com/rudsonalves/bookings/pkg/render"
 )
 
-const portNumber = ":8080"
+const portNumber = ":6060"
 
-var (
-	app     config.AppConfig
-	session *scs.SessionManager
-)
+var app config.AppConfig
+var session *scs.SessionManager
 
+// main is the main function
 func main() {
 	// change this to true when in production
-	app.InProduction = true
+	app.InProduction = false
+
+	// set up the session
 	session = scs.New()
 	session.Lifetime = 24 * time.Hour
 	session.Cookie.Persist = true
@@ -34,15 +35,16 @@ func main() {
 	if err != nil {
 		log.Fatal("cannot create template cache")
 	}
+
 	app.TemplateCache = tc
-	app.UseCache = true
+	app.UseCache = false
 
 	repo := handlers.NewRepo(&app)
 	handlers.NewHandlers(repo)
 
 	render.NewTemplates(&app)
 
-	fmt.Printf("Stating application on port %s\n", portNumber)
+	fmt.Println(fmt.Sprintf("Staring application on port %s", portNumber))
 
 	srv := &http.Server{
 		Addr:    portNumber,
@@ -50,6 +52,7 @@ func main() {
 	}
 
 	err = srv.ListenAndServe()
-	log.Fatal(err)
-
+	if err != nil {
+		log.Fatal(err)
+	}
 }

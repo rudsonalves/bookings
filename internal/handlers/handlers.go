@@ -3,11 +3,11 @@ package handlers
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 
 	"github.com/rudsonalves/bookings/internal/config"
 	"github.com/rudsonalves/bookings/internal/forms"
+	"github.com/rudsonalves/bookings/internal/helpers"
 	"github.com/rudsonalves/bookings/internal/models"
 	"github.com/rudsonalves/bookings/internal/render"
 )
@@ -22,20 +22,18 @@ type Repository struct {
 
 // NewRepo create a new repository
 func NewRepo(a *config.AppConfig) *Repository {
-	return &Repository{
-		App: a,
-	}
+	return &Repository{App: a}
 }
 
 // NewHandlers sets the repository for handlers
-func NewHandlers(r *Repository) {
-	Repo = r
+func NewHandlers(request *Repository) {
+	Repo = request
 }
 
 // Home is the home page handler
 func (m Repository) Home(write http.ResponseWriter, request *http.Request) {
-	remoteIP := request.RemoteAddr
-	m.App.Session.Put(request.Context(), "remote_ip", remoteIP)
+	// remoteIP := request.RemoteAddr
+	// m.App.Session.Put(request.Context(), "remote_ip", remoteIP)
 
 	render.RenderTemplate(write, request, "home.page.tmpl", &models.TemplateData{})
 }
@@ -43,15 +41,15 @@ func (m Repository) Home(write http.ResponseWriter, request *http.Request) {
 // About is the about page handler
 func (m Repository) About(write http.ResponseWriter, request *http.Request) {
 	// perform some logic
-	stringMap := make(map[string]string)
-	stringMap["test"] = "Hello, again."
+	// stringMap := make(map[string]string)
+	// stringMap["test"] = "Hello, again."
 
-	remoteIP := m.App.Session.GetString(request.Context(), "remote_ip")
-	stringMap["remote_ip"] = remoteIP
+	// remoteIP := m.App.Session.GetString(request.Context(), "remote_ip")
+	// stringMap["remote_ip"] = remoteIP
 
 	// send the data to the template
 	render.RenderTemplate(write, request, "about.page.tmpl", &models.TemplateData{
-		StringMap: stringMap,
+		// StringMap: stringMap,
 	})
 }
 
@@ -72,7 +70,7 @@ func (m Repository) Reservation(write http.ResponseWriter, request *http.Request
 func (m Repository) PostReservation(write http.ResponseWriter, request *http.Request) {
 	err := request.ParseForm()
 	if err != nil {
-		log.Println(err)
+		helpers.ServerError(write, err)
 		return
 	}
 
@@ -149,7 +147,7 @@ func (m Repository) AvailabilityJSON(write http.ResponseWriter, request *http.Re
 
 	out, err := json.MarshalIndent(response, "", "    ")
 	if err != nil {
-		log.Println(err)
+		helpers.ServerError(write, err)
 	}
 
 	write.Header().Set("Content-Type", "application/json")
@@ -160,9 +158,13 @@ func (m Repository) AvailabilityJSON(write http.ResponseWriter, request *http.Re
 func (m Repository) ReservationSummary(write http.ResponseWriter, request *http.Request) {
 	reservation, ok := m.App.Session.Get(request.Context(), "reservation").(models.Reservation)
 	if !ok {
-		log.Println("cannot get item from session")
+		m.App.ErrorLog.Println("cannot get item from session")
+		m.App.Session.Put(request.Context(), "error", "Can't get reservation from session")
+		http.Redirect(write, request, "/", http.StatusTemporaryRedirect)
 		return
 	}
+
+	m.App.Session.Remove(request.Context(), "reservation")
 
 	data := make(map[string]interface{})
 	data["reservation"] = reservation

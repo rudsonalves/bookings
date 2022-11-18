@@ -1,0 +1,22 @@
+mode: set
+github.com/rudsonalves/bookings/internal/handlers/handlers.go:24.47,26.2 1 1
+github.com/rudsonalves/bookings/internal/handlers/handlers.go:29.39,31.2 1 1
+github.com/rudsonalves/bookings/internal/handlers/handlers.go:34.76,39.2 3 1
+github.com/rudsonalves/bookings/internal/handlers/handlers.go:42.77,54.2 5 1
+github.com/rudsonalves/bookings/internal/handlers/handlers.go:57.83,67.2 4 0
+github.com/rudsonalves/bookings/internal/handlers/handlers.go:70.87,72.16 2 1
+github.com/rudsonalves/bookings/internal/handlers/handlers.go:77.2,91.19 7 1
+github.com/rudsonalves/bookings/internal/handlers/handlers.go:102.2,104.76 2 1
+github.com/rudsonalves/bookings/internal/handlers/handlers.go:72.16,75.3 2 0
+github.com/rudsonalves/bookings/internal/handlers/handlers.go:91.19,100.3 4 0
+github.com/rudsonalves/bookings/internal/handlers/handlers.go:109.80,111.2 1 1
+github.com/rudsonalves/bookings/internal/handlers/handlers.go:114.78,116.2 1 1
+github.com/rudsonalves/bookings/internal/handlers/handlers.go:119.79,121.2 1 1
+github.com/rudsonalves/bookings/internal/handlers/handlers.go:124.84,126.2 1 1
+github.com/rudsonalves/bookings/internal/handlers/handlers.go:129.88,134.2 3 1
+github.com/rudsonalves/bookings/internal/handlers/handlers.go:142.88,149.16 3 1
+github.com/rudsonalves/bookings/internal/handlers/handlers.go:153.2,154.18 2 1
+github.com/rudsonalves/bookings/internal/handlers/handlers.go:149.16,151.3 1 0
+github.com/rudsonalves/bookings/internal/handlers/handlers.go:158.90,160.9 2 1
+github.com/rudsonalves/bookings/internal/handlers/handlers.go:167.2,174.4 4 0
+github.com/rudsonalves/bookings/internal/handlers/handlers.go:160.9,165.3 4 1
